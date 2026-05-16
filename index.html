@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Za Doliną – Rajdy konne w Masywie Śnieżnika</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:    #F5F0E8;
+      --parchment:#EDE5D0;
+      --sand:     #D4C4A0;
+      --earth:    #8B6F47;
+      --bark:     #5C4023;
+      --forest:   #3B4A2F;
+      --sage:     #7A8C6A;
+      --rust:     #8B4513;
+      --charcoal: #2C2416;
+      --white:    #FDFAF4;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Jost', sans-serif;
+      background: var(--cream);
+      color: var(--charcoal);
+      font-weight: 300;
+      line-height: 1.75;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 5vw;
+      background: rgba(245,240,232,0.88);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--sand);
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--bark);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.8rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--bark);
+      opacity: 0.85;
+      transition: opacity 0.2s;
+    }
+
+    .nav-links a:hover { opacity: 1; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-img-placeholder {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(160deg, #4a3728 0%, #7a6040 40%, #3b4a2f 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .placeholder-label {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.22);
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      gap: 0.5rem;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .placeholder-icon {
+      width: 56px;
+      height: 56px;
+      border: 1.5px solid rgba(255,255,255,0.22);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* decorative grain overlay */
+    .hero-img-placeholder::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E");
+      opacity: 0.35;
+      mix-blend-mode: overlay;
+      pointer-events: none;
+    }
+
+    /* dark vignette */
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(20,13,6,0.25) 0%, rgba(20,13,6,0.55) 100%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 10rem 2rem 4rem;
+      color: var(--white);
+    }
+
+    .hero-eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      opacity: 0.75;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 9vw, 7rem);
+      font-weight: 600;
+      line-height: 1.0;
+      letter-spacing: -0.01em;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .hero-tagline {
+      font-size: clamp(0.85rem, 2vw, 1.05rem);
+      font-weight: 300;
+      letter-spacing: 0.04em;
+      opacity: 0.82;
+      max-width: 38ch;
+      margin-bottom: 3rem;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.85rem 2.5rem;
+      border: 1px solid rgba(255,255,255,0.6);
+      color: var(--white);
+      font-family: 'Jost', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.25s, border-color 0.25s;
+    }
+
+    .btn:hover {
+      background: rgba(255,255,255,0.12);
+      border-color: rgba(255,255,255,0.9);
+    }
+
+    .btn-dark {
+      border-color: var(--bark);
+      color: var(--bark);
+      background: transparent;
+    }
+
+    .btn-dark:hover {
+      background: var(--bark);
+      color: var(--white);
+    }
+
+    .hero-scroll {
+      position: relative;
+      z-index: 2;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .scroll-line {
+      display: inline-block;
+      width: 1px;
+      height: 48px;
+      background: rgba(255,255,255,0.4);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 6rem 5vw; }
+
+    .section-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--earth);
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      font-weight: 600;
+      line-height: 1.1;
+      color: var(--bark);
+      margin-bottom: 1.75rem;
+    }
+
+    .section-title em { font-style: italic; font-weight: 400; }
+
+    .divider {
+      width: 48px;
+      height: 1px;
+      background: var(--earth);
+      margin-bottom: 1.75rem;
+    }
+
+    /* ── ABOUT ── */
+    .about {
+      background: var(--white);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5vw;
+      align-items: center;
+    }
+
+    .about-text p {
+      font-size: 1.05rem;
+      color: var(--charcoal);
+      opacity: 0.85;
+      max-width: 50ch;
+    }
+
+    .about-image {
+      aspect-ratio: 4/5;
+      background: linear-gradient(135deg, #6b5030 0%, #3b4a2f 100%);
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-image .placeholder-label { color: rgba(255,255,255,0.25); }
+
+    /* ── OFFERS ── */
+    .offers { background: var(--parchment); }
+
+    .offers-header { max-width: 55ch; margin-bottom: 3.5rem; }
+
+    .offers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5px;
+      background: var(--sand);
+    }
+
+    .offer-card {
+      background: var(--white);
+      padding: 3rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .offer-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem;
+      font-weight: 400;
+      color: var(--sand);
+      line-height: 1;
+    }
+
+    .offer-image {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: linear-gradient(135deg, #7a6040 0%, #4a6040 100%);
+      border-radius: 2px;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .offer-image .placeholder-label { font-size: 0.65rem; }
+
+    .offer-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--bark);
+      line-height: 1.2;
+    }
+
+    .offer-desc {
+      font-size: 0.9rem;
+      opacity: 0.75;
+      flex: 1;
+    }
+
+    /* ── GALLERY ── */
+    .gallery { background: var(--cream); }
+    .gallery-header { margin-bottom: 2.5rem; }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: repeat(2, 260px);
+      gap: 6px;
+    }
+
+    .gal-item {
+      border-radius: 2px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .gal-item:nth-child(1) { grid-column: 1 / 6; grid-row: 1; background: linear-gradient(120deg, #5c4023 0%, #7a8c6a 100%); }
+    .gal-item:nth-child(2) { grid-column: 6 / 9; grid-row: 1; background: linear-gradient(120deg, #8b6f47 0%, #3b4a2f 100%); }
+    .gal-item:nth-child(3) { grid-column: 9 / 13; grid-row: 1; background: linear-gradient(120deg, #3b4a2f 0%, #5c4023 100%); }
+    .gal-item:nth-child(4) { grid-column: 1 / 4; grid-row: 2; background: linear-gradient(120deg, #7a6040 0%, #4a6040 100%); }
+    .gal-item:nth-child(5) { grid-column: 4 / 9; grid-row: 2; background: linear-gradient(120deg, #4a3728 0%, #8b6f47 100%); }
+    .gal-item:nth-child(6) { grid-column: 9 / 13; grid-row: 2; background: linear-gradient(120deg, #5c4023 0%, #3b4a2f 100%); }
+
+    .gal-item .placeholder-label { font-size: 0.65rem; }
+
+    /* ── CONTACT ── */
+    .contact {
+      background: var(--bark);
+      color: var(--white);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5vw;
+      align-items: start;
+    }
+
+    .contact .section-title { color: var(--parchment); }
+    .contact .section-label { color: var(--sand); }
+    .contact .divider { background: var(--sand); }
+
+    .contact-intro {
+      font-size: 1rem;
+      opacity: 0.75;
+      max-width: 40ch;
+      margin-bottom: 2.5rem;
+    }
+
+    .contact-details { display: flex; flex-direction: column; gap: 1.5rem; }
+
+    .contact-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .contact-item-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0.5;
+    }
+
+    .contact-item-value {
+      font-size: 1.05rem;
+      opacity: 0.9;
+    }
+
+    .contact-item-value a {
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,0.3);
+      transition: border-color 0.2s;
+    }
+
+    .contact-item-value a:hover { border-color: rgba(255,255,255,0.85); }
+
+    .contact-map {
+      aspect-ratio: 1;
+      background: linear-gradient(160deg, #3b4a2f 0%, #2c2416 100%);
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-map .placeholder-label { color: rgba(255,255,255,0.22); }
+
+    /* map pin decoration */
+    .map-pin {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+      color: rgba(255,255,255,0.4);
+    }
+
+    .map-pin svg { width: 32px; height: 32px; }
+
+    .map-location-text {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.55;
+      text-align: center;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--charcoal);
+      color: var(--sand);
+      padding: 2.5rem 5vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      opacity: 0.9;
+    }
+
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      color: var(--parchment);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .footer-links a {
+      color: var(--sand);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--parchment); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 4vw; }
+      .nav-links { gap: 1.25rem; }
+      .nav-links a { font-size: 0.7rem; }
+
+      .about { grid-template-columns: 1fr; }
+      .about-image { aspect-ratio: 3/2; order: -1; }
+
+      .contact { grid-template-columns: 1fr; }
+      .contact-map { aspect-ratio: 4/3; }
+
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: repeat(3, 180px);
+      }
+      .gal-item:nth-child(1) { grid-column: 1 / 3; grid-row: 1; }
+      .gal-item:nth-child(2) { grid-column: 1; grid-row: 2; }
+      .gal-item:nth-child(3) { grid-column: 2; grid-row: 2; }
+      .gal-item:nth-child(4) { grid-column: 1; grid-row: 3; }
+      .gal-item:nth-child(5) { grid-column: 2; grid-row: 3; }
+      .gal-item:nth-child(6) { display: none; }
+
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">Za Doliną</a>
+    <ul class="nav-links">
+      <li><a href="#o-nas">O nas</a></li>
+      <li><a href="#oferta">Oferta</a></li>
+      <li><a href="#galeria">Galeria</a></li>
+      <li><a href="#kontakt">Kontakt</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-img-placeholder">
+      <div class="placeholder-label">
+        <div class="placeholder-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        </div>
+        Twoje zdjęcie tutaj
+      </div>
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Masyw Śnieżnika · Idzików</p>
+      <h1 class="hero-title">Za<br /><em>Doliną</em></h1>
+      <p class="hero-tagline">Polish horses & slow countryside life in Masywie Śnieżnika.</p>
+      <a href="#oferta" class="btn">Odkryj ofertę</a>
+    </div>
+    <div class="hero-scroll">
+      <span class="scroll-line"></span>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="o-nas">
+    <div class="about-text">
+      <p class="section-label">O nas</p>
+      <h2 class="section-title">Stajnia z<br /><em>pasją</em></h2>
+      <div class="divider"></div>
+      <p>Stajnia prowadzona z miłości do koni. Rajdy konne prowadzę od kilkunastu lat. Zapraszam w moje okolice na rajdy jednodniowe lub kilkudniowe.<br /><br />Tu czas zwalnia. Słyszysz tylko stąpanie kopyt i szum lasu. Masyw Śnieżnika to jedna z najpiękniejszych części polskich Sudetów — a my znamy ją doskonale.</p>
+      <br />
+      <a href="#kontakt" class="btn btn-dark">Napisz do nas</a>
+    </div>
+    <div class="about-image">
+      <div class="placeholder-label">
+        <div class="placeholder-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        </div>
+        Twoje zdjęcie tutaj
+      </div>
+    </div>
+  </section>
+
+  <!-- OFFERS -->
+  <section class="offers" id="oferta">
+    <div class="offers-header">
+      <p class="section-label">Oferta</p>
+      <h2 class="section-title">Co<br /><em>oferujemy</em></h2>
+      <div class="divider"></div>
+    </div>
+    <div class="offers-grid">
+
+      <div class="offer-card">
+        <div class="offer-number">01</div>
+        <div class="offer-image">
+          <div class="placeholder-label">
+            <div class="placeholder-icon" style="width:40px;height:40px;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            </div>
+            Twoje zdjęcie tutaj
+          </div>
+        </div>
+        <h3 class="offer-title">Rajd konny jednodniowy</h3>
+        <p class="offer-desc">Odkryj piękno Masywu Śnieżnika w ciągu jednego dnia. Idealne dla początkujących i zaawansowanych jeźdźców.</p>
+      </div>
+
+      <div class="offer-card">
+        <div class="offer-number">02</div>
+        <div class="offer-image">
+          <div class="placeholder-label">
+            <div class="placeholder-icon" style="width:40px;height:40px;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            </div>
+            Twoje zdjęcie tutaj
+          </div>
+        </div>
+        <h3 class="offer-title">Rajd konny kilkudniowy</h3>
+        <p class="offer-desc">Kilka dni w siodle, nocleg w wyjątkowych miejscach, wieczory przy ognisku. Prawdziwa przygoda bez pośpiechu.</p>
+      </div>
+
+      <div class="offer-card">
+        <div class="offer-number">03</div>
+        <div class="offer-image">
+          <div class="placeholder-label">
+            <div class="placeholder-icon" style="width:40px;height:40px;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            </div>
+            Twoje zdjęcie tutaj
+          </div>
+        </div>
+        <h3 class="offer-title">Nauka jazdy konnej</h3>
+        <p class="offer-desc">Indywidualne lekcje dla każdego — od zupełnych początkujących po tych, którzy chcą doszlifować technikę.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="gallery" id="galeria">
+    <div class="gallery-header">
+      <p class="section-label">Galeria</p>
+      <h2 class="section-title"><em>Chwile</em> z dolinny</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="gallery-grid">
+      <div class="gal-item"><div class="placeholder-label"><div class="placeholder-icon" style="width:36px;height:36px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>Zdjęcie 1</div></div>
+      <div class="gal-item"><div class="placeholder-label"><div class="placeholder-icon" style="width:36px;height:36px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>Zdjęcie 2</div></div>
+      <div class="gal-item"><div class="placeholder-label"><div class="placeholder-icon" style="width:36px;height:36px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>Zdjęcie 3</div></div>
+      <div class="gal-item"><div class="placeholder-label"><div class="placeholder-icon" style="width:36px;height:36px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>Zdjęcie 4</div></div>
+      <div class="gal-item"><div class="placeholder-label"><div class="placeholder-icon" style="width:36px;height:36px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>Zdjęcie 5</div></div>
+      <div class="gal-item"><div class="placeholder-label"><div class="placeholder-icon" style="width:36px;height:36px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>Zdjęcie 6</div></div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="kontakt">
+    <div>
+      <p class="section-label">Kontakt</p>
+      <h2 class="section-title">Zaplanujmy<br /><em>razem</em></h2>
+      <div class="divider"></div>
+      <p class="contact-intro">Napisz lub zadzwoń — odpowiem na wszystkie pytania i pomogę dobrać najlepszą ofertę dla Ciebie.</p>
+      <div class="contact-details">
+        <div class="contact-item">
+          <span class="contact-item-label">Telefon</span>
+          <span class="contact-item-value"><a href="tel:+48123123123">+48 123 123 123</a></span>
+        </div>
+        <div class="contact-item">
+          <span class="contact-item-label">E-mail</span>
+          <span class="contact-item-value"><a href="mailto:test@test.com">test@test.com</a></span>
+        </div>
+        <div class="contact-item">
+          <span class="contact-item-label">Lokalizacja</span>
+          <span class="contact-item-value">Idzików, Masyw Śnieżnika</span>
+        </div>
+        <div class="contact-item">
+          <span class="contact-item-label">Instagram</span>
+          <span class="contact-item-value"><a href="https://instagram.com" target="_blank" rel="noopener">@zadolina</a></span>
+        </div>
+      </div>
+    </div>
+    <div class="contact-map">
+      <div class="placeholder-label">
+        <div class="placeholder-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21c-4-4-7-7.5-7-11a7 7 0 0 1 14 0c0 3.5-3 7-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+        </div>
+        Mapa / Twoje zdjęcie tutaj
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-logo">Za Doliną</span>
+    <ul class="footer-links">
+      <li><a href="#o-nas">O nas</a></li>
+      <li><a href="#oferta">Oferta</a></li>
+      <li><a href="#galeria">Galeria</a></li>
+      <li><a href="#kontakt">Kontakt</a></li>
+    </ul>
+    <span>© 2025 Za Doliną</span>
+  </footer>
+
+</body>
+</html>
